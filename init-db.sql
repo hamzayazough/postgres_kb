@@ -1,3 +1,6 @@
+CREATE EXTENSION IF NOT EXISTS vector;
+
+
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     username TEXT UNIQUE NOT NULL
@@ -12,8 +15,13 @@ CREATE TABLE IF NOT EXISTS subjects (
 );
 
 
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'role_enum') THEN
+    CREATE TYPE role_enum AS ENUM ('user', 'assistant');
+  END IF;
+END $$;
 
-CREATE TYPE IF NOT EXISTS role_enum AS ENUM ('user', 'assistant');
 
 CREATE TABLE IF NOT EXISTS messages (
     id SERIAL PRIMARY KEY,
