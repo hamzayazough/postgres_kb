@@ -3,6 +3,8 @@ const subjectResolvers = require('./subjects');
 const messageResolvers = require('./messages');
 const studyCardResolvers = require('./studyCards');
 const questionCardResolvers = require('./questionCards');
+const aiResolvers = require('./ai');
+const authResolvers = require('./auth');
 
 module.exports = {
   Query: {
@@ -10,7 +12,8 @@ module.exports = {
     ...subjectResolvers.Query,
     ...messageResolvers.Query,
     ...studyCardResolvers.Query,
-    ...questionCardResolvers.Query
+    ...questionCardResolvers.Query,
+    ...authResolvers.Query,
   },
   Mutation: {
     ...userResolvers.Mutation,
@@ -18,6 +21,7 @@ module.exports = {
     ...messageResolvers.Mutation,
     ...studyCardResolvers.Mutation,
     ...questionCardResolvers.Mutation,
-    ...aiResolvers.Mutation
+    ...aiResolvers.Mutation,
+    ...authResolvers.Mutation,
   }
 };

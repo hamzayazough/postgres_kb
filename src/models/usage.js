@@ -9,7 +9,6 @@ const usageModel = {
   recordUsage: async (usage) => {
     const { user_id, model, input_tokens, output_tokens, duration_ms, timestamp } = usage;
     
-    // If user_id is null, we don't record usage (for unauthenticated requests)
     if (!user_id) return null;
     
     const res = await db.query(

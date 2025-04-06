@@ -23,6 +23,7 @@ const userModel = {
   
   create: async (userData) => {
     const {
+      firebase_uid,
       username,
       email,
       phone_number = null,
@@ -33,20 +34,30 @@ const userModel = {
     
     const res = await db.query(
       `INSERT INTO users 
-       (username, email, phone_number, first_name, last_name, profile_picture_url) 
-       VALUES ($1, $2, $3, $4, $5, $6) 
+       (firebase_uid, username, email, phone_number, first_name, last_name, profile_picture_url) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7) 
        RETURNING *`, 
-      [username, email, phone_number, first_name, last_name, profile_picture_url]
+      [
+        firebase_uid,       
+        username,           
+        email,              
+        phone_number,
+        first_name,
+        last_name,
+        profile_picture_url
+      ]
     );
+    
     return res.rows[0];
   },
+  
+  
   
   update: async (id, userData) => {
     const client = await db.getClient();
     try {
       await client.query('BEGIN');
       
-      // Get the current user data
       const currentUserRes = await client.query(
         "SELECT * FROM users WHERE id = $1",
         [id]
@@ -58,7 +69,6 @@ const userModel = {
       
       const currentUser = currentUserRes.rows[0];
       
-      // Merge the current data with the new data
       const updatedUser = {
         ...currentUser,
         ...userData,

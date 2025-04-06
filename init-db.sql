@@ -4,7 +4,7 @@ CREATE EXTENSION IF NOT EXISTS vector;
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     firebase_uid TEXT UNIQUE NOT NULL,
-    username TEXT UNIQUE NOT NULL,
+    username TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     phone_number TEXT,
     first_name TEXT,

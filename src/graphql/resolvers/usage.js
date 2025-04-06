@@ -36,7 +36,7 @@ module.exports = {
         throw new Error('Authentication required');
       }
       
-      // Check if user is admin (you'll need to implement this)
+      // TODO: implement user admin logic
       if (!context.user.is_admin) {
         throw new Error('Admin privileges required');
       }

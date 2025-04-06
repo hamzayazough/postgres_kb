@@ -18,7 +18,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "firebase-admin": "^13.2.0",
-    "groq": "^3.82.0",
+    "groq-sdk": "^0.19.0",
     "pg": "^8.13.3",
     "pgvector": "^0.2.0"
   }

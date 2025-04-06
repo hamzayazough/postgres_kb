@@ -5,6 +5,7 @@ const cors = require('cors');
 const typeDefs = require('./src/graphql/schema');
 const resolvers = require('./src/graphql/resolvers');
 const db = require('./src/config/db');
+const authMiddleware = require('./src/api/middlewares/auth').authMiddleware;
 
 async function startServer() {
   const app = express();

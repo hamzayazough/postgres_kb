@@ -7,6 +7,6 @@ module.exports = gql`
   
   extend type Mutation {
     syncFirebaseUser: User
-    updatePhoneNumber(phoneNumber: String!): User
+    updatePhoneNumberAndUsername(phoneNumber: String!, username: String!): User
   }
 `;

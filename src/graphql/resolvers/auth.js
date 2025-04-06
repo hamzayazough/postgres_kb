@@ -19,14 +19,20 @@ module.exports = {
       
       return context.user;
     },
+
     
-    updatePhoneNumber: async (_, { phoneNumber }, context) => {
+    updatePhoneNumberAndUsername: async (_, { phoneNumber, username }, context) => {
       if (!context.user) {
         throw new Error('Not authenticated');
       }
+
+      if (!phoneNumber || !username) {
+        throw new Error('Phone number and username are required');
+      }
       
       const updatedUser = await userModel.update(context.user.id, {
-        phone_number: phoneNumber
+        phone_number: phoneNumber,
+        username: username
       });
       
       return updatedUser;

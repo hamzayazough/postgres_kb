@@ -5,6 +5,7 @@ const messageTypeDefs = require('./typeDefs/messages');
 const studyCardTypeDefs = require('./typeDefs/studyCards');
 const questionCardTypeDefs = require('./typeDefs/questionCards');
 const aiTypeDefs = require('./typeDefs/ai');
+const auth = require('./typeDefs/auth');
 
 const baseTypeDefs = gql`
   type Query {
@@ -23,5 +24,6 @@ module.exports = [
   messageTypeDefs,
   studyCardTypeDefs,
   questionCardTypeDefs,
-  aiTypeDefs
+  aiTypeDefs,
+  auth,
 ];

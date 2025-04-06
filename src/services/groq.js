@@ -1,7 +1,12 @@
-const { encodingForModel } = require("@dqbd/tiktoken");
-const encoder = encodingForModel("gpt-3.5-turbo"); // TODO: Update to the correct model if needed
+const { Tiktoken } = require("@dqbd/tiktoken");
+const cl100k_base = require("@dqbd/tiktoken/encoders/cl100k_base.json");
 
-const Groq = require('groq');
+const encoder = new Tiktoken(
+  cl100k_base.bpe_ranks,
+  cl100k_base.special_tokens,
+  cl100k_base.pat_str
+);
+const GroqSdk = require('groq-sdk').default;
 const usageModel = require('../models/usage');
 const MAX_CONTEXT_TOKENS = 3000;
 
@@ -18,10 +23,9 @@ const groqService = {
    */
   createChatCompletion: async (userId, messages, contextString = "", model = 'llama-3.3-70b-versatile') => {
     try {
-      // Initialize Groq client
-      const groq = new Groq({ apiKey: GROQ_API_KEY });
-      
-      // Prepare messages with context if available
+      const groq = new GroqSdk({
+        apiKey: process.env.GROQ_API_KEY
+      });      
       let messagesForAI = [...messages];
       
       if (contextString && contextString.trim() !== "") {
@@ -29,10 +33,8 @@ const groqService = {
         messagesForAI = [{ role: "system", content: systemPrompt }, ...messagesForAI];
       }
       
-      // Estimate token count (simplified)
       const inputTokens = messagesForAI.reduce((count, msg) => count + countTokens(msg.content), 0);
       
-      // Call Groq API
       const startTime = Date.now();
       const response = await groq.chat.completions.create({
         messages: messagesForAI,
@@ -40,13 +42,10 @@ const groqService = {
       });
       const endTime = Date.now();
       
-      // Get the AI response
       const aiMessage = response.choices[0].message.content;
       
-      // Calculate response tokens
       const outputTokens = countTokens(aiMessage);
       
-      // Record usage if userId is provided
       if (userId) {
         await usageModel.recordUsage({
           user_id: userId,

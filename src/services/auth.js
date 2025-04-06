@@ -24,9 +24,11 @@ const authService = {
    */
   findOrCreateUser: async (firebaseUser) => {
     const { uid, email, phone_number, name } = firebaseUser;
+    console.log('Firebase user:', firebaseUser);
     
     // Try to find user by Firebase UID
     let user = await userModel.findByFirebaseId(uid);
+    console.log('User found:', user, uid);
     
     if (!user) {
       // Extract first and last name if available
@@ -38,7 +40,7 @@ const authService = {
         firstName = nameParts[0];
         lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : null;
       }
-      
+      console.log("creating user if not found", uid);
       // Create new user if not found
       user = await userModel.create({
         firebase_uid: uid,
@@ -50,10 +52,11 @@ const authService = {
       });
     }
     
+    console.log("updating last login", user.id);
     await userModel.updateLastLogin(user.id);
     
     return user;
-  }
+  },
 
   /**
    * Get authenticated user from request
