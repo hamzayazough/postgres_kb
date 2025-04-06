@@ -11,11 +11,14 @@
   "type": "commonjs",
   "description": "",
   "dependencies": {
+    "@dqbd/tiktoken": "^1.0.20",
     "apollo-server-express": "^3.13.0",
     "axios": "^1.8.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "firebase-admin": "^13.2.0",
+    "groq": "^3.82.0",
     "pg": "^8.13.3",
     "pgvector": "^0.2.0"
   }
