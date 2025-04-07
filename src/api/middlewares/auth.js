@@ -16,7 +16,6 @@ const authMiddleware = async (req, res, next) => {
 const requireAuth = async (req, res, next) => {
   try {
     const user = await authService.getAuthenticatedUser(req);
-    
     if (!user) {
       return res.status(401).json({
         errors: [{

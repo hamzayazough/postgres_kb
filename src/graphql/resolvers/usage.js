@@ -7,7 +7,16 @@ module.exports = {
         throw new Error('Authentication required');
       }
       
-      return await usageModel.getUserQuota(context.user.id);
+      const quota = await usageModel.getUserQuota(context.user.id);
+      if (!quota) {
+        return {
+          limit: 1000000,
+          used: 0,
+          remaining: 1000000,
+          resetDate: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1).toISOString()
+        };
+      }
+            return quota;
     },
     
     getUserUsageStats: async (_, { startDate, endDate }, context) => {
@@ -21,12 +30,14 @@ module.exports = {
         new Date(endDate)
       );
       
-      return stats.map(stat => ({
-        date: stat.date,
-        inputTokens: parseInt(stat.input_tokens),
-        outputTokens: parseInt(stat.output_tokens),
-        requestCount: parseInt(stat.request_count)
-      }));
+      return stats
+        ? stats.map(stat => ({
+            date: stat.date,
+            inputTokens: parseInt(stat.input_tokens, 10),
+            outputTokens: parseInt(stat.output_tokens, 10),
+            requestCount: parseInt(stat.request_count, 10)
+          }))
+        : [];
     }
   },
   
@@ -36,7 +47,6 @@ module.exports = {
         throw new Error('Authentication required');
       }
       
-      // TODO: implement user admin logic
       if (!context.user.is_admin) {
         throw new Error('Admin privileges required');
       }

@@ -52,7 +52,6 @@ const usageModel = {
       "SELECT * FROM user_quotas WHERE user_id = $1",
       [userId]
     );
-    
     if (quotaRes.rows.length === 0) {
       const now = new Date();
       const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
@@ -68,7 +67,6 @@ const usageModel = {
     
     const quota = quotaRes.rows[0];
     const used = await usageModel.getMonthlyUsage(userId);
-    
     return {
       limit: quota.monthly_token_limit,
       used,
