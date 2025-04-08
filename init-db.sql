@@ -35,6 +35,17 @@ CREATE TABLE IF NOT EXISTS subjects (
     UNIQUE(user_id, name)
 );
 
+CREATE TABLE IF NOT EXISTS subject_documents (
+    id SERIAL PRIMARY KEY,
+    subject_id INT REFERENCES subjects(id) ON DELETE CASCADE,
+    filename TEXT NOT NULL,
+    s3_key TEXT NOT NULL,
+    upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    file_size INT NOT NULL,
+    embedding_status TEXT DEFAULT 'pending',
+    document_type TEXT DEFAULT 'pdf'
+);
+
 CREATE TABLE IF NOT EXISTS user_quotas (
     user_id INT REFERENCES users(id) ON DELETE CASCADE PRIMARY KEY,
     monthly_token_limit INT NOT NULL DEFAULT 1000000,
