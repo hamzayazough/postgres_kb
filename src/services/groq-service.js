@@ -1,11 +1,6 @@
-const { Tiktoken } = require("@dqbd/tiktoken");
-const cl100k_base = require("@dqbd/tiktoken/encoders/cl100k_base.json");
 
-const encoder = new Tiktoken(
-  cl100k_base.bpe_ranks,
-  cl100k_base.special_tokens,
-  cl100k_base.pat_str
-);
+const { countTokens } = require('./../utils/token-counter');
+
 const GroqSdk = require('groq-sdk').default;
 const usageModel = require('../models/usage');
 const MAX_CONTEXT_TOKENS = 3000;
@@ -103,10 +98,6 @@ const groqService = {
     return contextArray.join("\n");
   }
 };
-
-function countTokens(text) {
-  return encoder.encode(text).length;
-}
 
 
 module.exports = groqService;

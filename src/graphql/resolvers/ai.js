@@ -1,6 +1,7 @@
-const groqService = require('../../services/groq');
+const groqService = require('../../services/groq-service');
 const messageModel = require('../../models/message');
-const { getEmbedding } = require('../../services/embedding');
+const { getEmbedding } = require('../../services/embedding-service');
+const { searchContextForQuery } = require('../../services/document-search');
 
 module.exports = {
   Mutation: {
@@ -8,7 +9,6 @@ module.exports = {
       if (!context.user) {
         throw new Error('Authentication required');
       }
-      
       try {
         let contextString = "";
         
@@ -18,34 +18,28 @@ module.exports = {
             .slice(-1)[0];
             
           if (lastUserMessage) {
-            const queryEmbedding = await getEmbedding(lastUserMessage.content);
-            
-            const retrievedMessages = await messageModel.search(subjectId, queryEmbedding);
-            
-            contextString = groqService.buildContextString(retrievedMessages);
-          }
-        }
-        
-        if (context.user) {
-          const hasExceededQuota = await groqService.hasExceededQuota(context.user.id);
-          if (hasExceededQuota) {
-            throw new Error('Usage quota exceeded');
+            const context = await searchContextForQuery(subjectId, lastUserMessage.content);
+            contextString = context.combinedContext;
           }
         }
         
         const userId = context.user ? context.user.id : null;
-        const response = await groqService.createChatCompletion(
-          userId,
-          messages,
-          contextString,
-          model || 'llama-3.3-70b-versatile'
-        );
-        
-        return response;
+
+
+        const lastResponse = await groqService.createChatCompletion(userId, messages, contextString);
+
+        if (lastResponse.content.includes("I need more information") || 
+            lastResponse.content.includes("don't have enough context")) {
+          const moreChunks = await documentModel.getAdditionalChunks(subjectId, queryEmbedding, 5);
+          const extendedContext = contextString + "\n\n" + moreChunks.join("\n\n");
+          
+          return await groqService.createChatCompletion(userId, messages, extendedContext, model || 'llama-3.3-70b-versatile');
+        }
+        return lastResponse;
       } catch (error) {
         console.error("Error generating AI response:", error);
         throw new Error(`Failed to generate AI response: ${error.message}`);
       }
     }
-  }
+  },      
 };

@@ -3,4 +3,5 @@ package-lock.json
 node_modules
 .env
 firebase-service-account.json
+credentials.json
 usage-model-debug.log

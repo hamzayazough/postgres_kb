@@ -1,0 +1,24 @@
+[2025-04-09T02:59:24.622Z] getUserQuota called with context: {"user":{"id":1,"firebase_uid":"qKz2pC5RTub4i7L1C4yokNeA57L2","username":"hamza.yazough1992","email":"hamza.yazough1992@gmail.com","phone_number":null,"first_name":"Hamza","last_name":null,"profile_picture_url":null,"last_login_date":"2025-04-09T02:59:16.283Z","created_at":"2025-04-09T05:35:08.978Z","updated_at":"2025-04-09T05:35:08.978Z"}}
+[2025-04-09T02:59:24.624Z] Fetching quota for user: 1
+[2025-04-09T02:59:24.664Z] getUserUsageStats called with dates: {"startDate":"2025-04-01T04:00:00.000Z","endDate":"2025-04-09T02:59:24.406Z"}
+[2025-04-09T02:59:24.666Z] Fetching stats for user: 1
+[2025-04-09T02:59:24.741Z] Retrieved stats count: 1
+[2025-04-09T02:59:24.742Z] Formatted stats result: [{"date":"2025-04-08","inputTokens":695,"outputTokens":1472,"requestCount":2}]
+[2025-04-09T02:59:24.785Z] Retrieved quota: {"limit":1000000,"used":2167,"remaining":997833,"resetDate":"2025-05-01T04:00:00.000Z"}
+[2025-04-09T02:59:24.786Z] Formatted quota result: {"limit":1000000,"used":2167,"remaining":997833,"resetDate":"2025-05-01T04:00:00.000Z"}
+[2025-04-09T03:10:29.667Z] getUserQuota called with context: {"user":{"id":1,"firebase_uid":"qKz2pC5RTub4i7L1C4yokNeA57L2","username":"hamza.yazough1992","email":"hamza.yazough1992@gmail.com","phone_number":null,"first_name":"Hamza","last_name":null,"profile_picture_url":null,"last_login_date":"2025-04-09T03:10:23.376Z","created_at":"2025-04-09T05:35:08.978Z","updated_at":"2025-04-09T05:35:08.978Z"}}
+[2025-04-09T03:10:29.669Z] Fetching quota for user: 1
+[2025-04-09T03:10:29.700Z] getUserUsageStats called with dates: {"startDate":"2025-04-01T04:00:00.000Z","endDate":"2025-04-09T03:10:29.420Z"}
+[2025-04-09T03:10:29.702Z] Fetching stats for user: 1
+[2025-04-09T03:10:29.760Z] Retrieved stats count: 1
+[2025-04-09T03:10:29.761Z] Formatted stats result: [{"date":"2025-04-08","inputTokens":695,"outputTokens":1472,"requestCount":2}]
+[2025-04-09T03:10:29.782Z] Retrieved quota: {"limit":1000000,"used":2167,"remaining":997833,"resetDate":"2025-05-01T04:00:00.000Z"}
+[2025-04-09T03:10:29.783Z] Formatted quota result: {"limit":1000000,"used":2167,"remaining":997833,"resetDate":"2025-05-01T04:00:00.000Z"}
+[2025-04-09T04:11:46.520Z] getUserQuota called with context: {"user":{"id":1,"firebase_uid":"qKz2pC5RTub4i7L1C4yokNeA57L2","username":"hamza.yazough1992","email":"hamza.yazough1992@gmail.com","phone_number":null,"first_name":"Hamza","last_name":null,"profile_picture_url":null,"last_login_date":"2025-04-09T04:11:42.489Z","created_at":"2025-04-09T05:35:08.978Z","updated_at":"2025-04-09T05:35:08.978Z"}}
+[2025-04-09T04:11:46.523Z] Fetching quota for user: 1
+[2025-04-09T04:11:46.610Z] getUserUsageStats called with dates: {"startDate":"2025-04-01T04:00:00.000Z","endDate":"2025-04-09T04:11:46.303Z"}
+[2025-04-09T04:11:46.611Z] Fetching stats for user: 1
+[2025-04-09T04:11:46.641Z] Retrieved quota: {"limit":1000000,"used":3202,"remaining":996798,"resetDate":"2025-05-01T04:00:00.000Z"}
+[2025-04-09T04:11:46.642Z] Formatted quota result: {"limit":1000000,"used":3202,"remaining":996798,"resetDate":"2025-05-01T04:00:00.000Z"}
+[2025-04-09T04:11:46.671Z] Retrieved stats count: 1
+[2025-04-09T04:11:46.672Z] Formatted stats result: [{"date":"2025-04-08","inputTokens":1547,"outputTokens":1655,"requestCount":3}]

@@ -1,6 +1,5 @@
 CREATE EXTENSION IF NOT EXISTS vector;
 
-
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     firebase_uid TEXT UNIQUE NOT NULL,
@@ -25,6 +24,16 @@ CREATE TABLE IF NOT EXISTS usages (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS user_quotas (
+    user_id INT REFERENCES users(id) ON DELETE CASCADE PRIMARY KEY,
+    monthly_token_limit INT NOT NULL DEFAULT 1000000,
+    reset_date TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
 CREATE TABLE IF NOT EXISTS subjects (
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(id) ON DELETE CASCADE,
@@ -34,26 +43,6 @@ CREATE TABLE IF NOT EXISTS subjects (
     disabled_date TIMESTAMP,
     UNIQUE(user_id, name)
 );
-
-CREATE TABLE IF NOT EXISTS subject_documents (
-    id SERIAL PRIMARY KEY,
-    subject_id INT REFERENCES subjects(id) ON DELETE CASCADE,
-    filename TEXT NOT NULL,
-    s3_key TEXT NOT NULL,
-    upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    file_size INT NOT NULL,
-    embedding_status TEXT DEFAULT 'pending',
-    document_type TEXT DEFAULT 'pdf'
-);
-
-CREATE TABLE IF NOT EXISTS user_quotas (
-    user_id INT REFERENCES users(id) ON DELETE CASCADE PRIMARY KEY,
-    monthly_token_limit INT NOT NULL DEFAULT 1000000,
-    reset_date TIMESTAMP NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
 
 DO $$ 
 BEGIN
@@ -90,6 +79,28 @@ CREATE TABLE IF NOT EXISTS question_cards (
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS subject_documents (
+    id SERIAL PRIMARY KEY,
+    subject_id INT REFERENCES subjects(id) ON DELETE CASCADE,
+    filename TEXT NOT NULL,
+    s3_key TEXT NOT NULL,
+    upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    file_size INT NOT NULL,
+    embedding_status TEXT DEFAULT 'pending',
+    document_type TEXT DEFAULT 'pdf'
+);
+
+CREATE TABLE IF NOT EXISTS document_chunks (
+    id SERIAL PRIMARY KEY,
+    document_id INT REFERENCES subject_documents(id) ON DELETE CASCADE,
+    section_title TEXT,
+    section_level INT,
+    chunk_text TEXT NOT NULL,
+    chunk_index INT NOT NULL,
+    embedding vector(1536),
+    metadata JSONB --  page numbers, sections, etc. for sources
 );
 
 CREATE INDEX IF NOT EXISTS idx_messages_subject_id ON messages(subject_id);

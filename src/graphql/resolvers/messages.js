@@ -1,5 +1,5 @@
 const messageModel = require('../../models/message');
-const { getEmbedding } = require('../../services/embedding');
+const { getEmbedding } = require('../../services/embedding-service');
 
 module.exports = {
   Query: {
